@@ -1,0 +1,28 @@
+{
+  "name": "nasa_project",
+  "version": "1.0.0",
+  "description": "Launching nasa missions",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client",
+    "install-all": "npm run install-server && npm run install-client",
+    "server": "npm start --prefix backend",
+    "client": "npm start --prefix client",
+    "watch": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abdul17rahman/nasa_project.git"
+  },
+  "author": "Abdul Rahman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abdul17rahman/nasa_project/issues"
+  },
+  "homepage": "https://github.com/Abdul17rahman/nasa_project#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
