@@ -5,6 +5,10 @@ const fs = require("fs");
 // Initiate an array to store the data
 const dataset = [];
 
+function isHabitablePlanet(planet) {
+  return planet["koi_disposition"] === "CONFIRMED" && planet["koi_prad"] < 1.6;
+}
+
 // Read data using the file system module
 function loadPlanetData() {
   return new Promise((resolve, reject) => {
@@ -16,14 +20,16 @@ function loadPlanetData() {
         })
       )
       .on("data", (data) => {
-        dataset.push(data);
+        if (isHabitablePlanet(data)) {
+          dataset.push(data);
+        }
       })
       .on("error", (err) => {
         console.log("Coudn't fetch data", err);
         reject(err);
       })
       .on("end", () => {
-        console.log("Finished succesfully");
+        console.log("Finished succesfully", dataset.length);
         resolve();
       });
   });

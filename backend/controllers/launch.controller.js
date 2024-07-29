@@ -1,4 +1,9 @@
-const { launches, addLaunch } = require("../model/launch.model");
+const {
+  launches,
+  addLaunch,
+  lauchExists,
+  abortLaunch,
+} = require("../model/launch.model");
 
 function getHttpLaunches(req, res) {
   return res.status(200).json(Array.from(launches.values()));
@@ -25,7 +30,20 @@ function addHttpLaunch(req, res) {
   return res.status(201).json(launch);
 }
 
+function httpAbortLaunch(req, res) {
+  const id = Number(req.params.id);
+
+  if (!lauchExists(id)) {
+    return res.status(400).json({
+      error: "Launch doesnt exist.",
+    });
+  }
+
+  return res.status(200).json(abortLaunch(id));
+}
+
 module.exports = {
   getHttpLaunches,
   addHttpLaunch,
+  httpAbortLaunch,
 };

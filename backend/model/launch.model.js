@@ -15,18 +15,38 @@ const launch = {
 
 launches.set(launch.flightNumber, launch);
 
-function addLaunch(newlaunch) {
-  Object.assign(newlaunch, {
-    flightNumber: latestFlight++,
-    customers: ["EJM", "NASA"],
-    upcoming: true,
-    success: true,
-  });
+function lauchExists(id) {
+  if (launches.get(id)) {
+    return launches.get(id);
+  }
+  return false;
+}
 
-  launches.set(newlaunch.flightNumber, newlaunch);
+function addLaunch(newlaunch) {
+  latestFlight++;
+  launches.set(
+    latestFlight,
+    Object.assign(newlaunch, {
+      flightNumber: latestFlight,
+      customers: ["EJM", "NASA"],
+      upcoming: true,
+      success: true,
+    })
+  );
+}
+
+function abortLaunch(id) {
+  const abortedLanch = lauchExists(id);
+  if (abortedLanch) {
+    abortedLanch.upcoming = false;
+    abortedLanch.success = false;
+    return abortedLanch;
+  }
 }
 
 module.exports = {
+  lauchExists,
   launches,
   addLaunch,
+  abortLaunch,
 };
