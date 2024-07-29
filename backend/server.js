@@ -1,27 +1,17 @@
-const express = require("express");
-const cors = require("cors");
-const router = require("./routes/index");
+const http = require("http");
+
+const app = require("./app");
 const { loadPlanetData } = require("./model/planets.model");
-const app = express();
-const path = require("path");
 
 const PORT = process.env.PORT || 5000;
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+const server = http.createServer(app);
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/api", router);
-
-app.use("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.listen(PORT, async () => {
+async function startServer() {
   await loadPlanetData();
-  console.log(`API running on port ${PORT}`);
-});
+  server.listen(PORT, () => {
+    console.log("Server started.....");
+  });
+}
+
+startServer();
